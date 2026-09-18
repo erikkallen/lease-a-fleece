@@ -103,7 +103,7 @@ Runtime dependencies: two (`zod`, `@vercel/blob`) plus Tailwind, which does the 
 
 **Assets**
 
-`public/fleet/fjord.png`, `public/fleet/aurora.png`, `public/korg.png` — transparent-background product cutouts supplied by Erik
+`public/fleet/fjord.avif`, `public/fleet/aurora.avif`, `public/korg.avif` — transparent-background product cutouts supplied by Erik
 
 ---
 
@@ -286,7 +286,7 @@ export const FLEET: FleetUnit[] = [
     gsm: 260,
     composition: '100% polyester anti-pill fleece',
     residualThermalValue: '72% at end of term',
-    image: '/fleet/fjord.png',
+    image: '/fleet/fjord.avif',
     totalUnits: 1,
     availableUnits: 1,
     monthlyRates: { 12: 1250, 24: 975, 36: 750 },
@@ -303,7 +303,7 @@ export const FLEET: FleetUnit[] = [
     gsm: 260,
     composition: '100% polyester anti-pill fleece',
     residualThermalValue: '69% at end of term',
-    image: '/fleet/aurora.png',
+    image: '/fleet/aurora.avif',
     totalUnits: 1,
     availableUnits: 1,
     monthlyRates: { 12: 1400, 24: 1095, 36: 850 },
@@ -336,7 +336,7 @@ export const KORG = {
   subtitle: 'Fleece Containment Unit',
   description:
     'A perforated carrier in white, with bentwood handles, sized to one folded unit. Ventilated on all four faces, which matters more than you would think. KORG is not leased. It is sold outright, once, to one customer, and then it is gone. We do not expect to source another.',
-  image: '/korg.png',
+  image: '/korg.avif',
   assetCode: 'LAF-A-001',
   oneTimeCents: 3500,
   unitsEverAvailable: 1,
@@ -1013,32 +1013,31 @@ git commit -m "feat: add design system, grain overlay, layout, header and footer
 
 ## Task 8: Place the supplied product images
 
-Erik supplied photographs of the real products as transparent-background PNG cutouts: the olive fleece rolled and banded, and the white perforated KORG carrier with bentwood handles. No stock photography is used.
+Erik supplied photographs of the real products as transparent-background AVIF cutouts: the olive fleece rolled and banded, and the white perforated KORG carrier with bentwood handles. No stock photography is used.
 
 **Files:**
-- Create: `public/fleet/fjord.png`, `public/fleet/aurora.png`, `public/korg.png`
+- Create: `public/fleet/fjord.avif`, `public/fleet/aurora.avif`, `public/korg.avif`
 - Create: `public/CREDITS.md`
 
-- [ ] **Step 1: Get the supplied files onto disk**
+- [ ] **Step 1: Confirm the supplied files are on disk**
 
-The two product cutouts were pasted into the conversation, not saved to a path. Ask Erik to drop them into the repository:
-
-> Save the olive fleece image to `public/fleet/fjord.png` and the basket image to `public/korg.png`.
-
-Then verify:
+Erik saves the cutouts himself — they arrive in the conversation as images, not as files, so they cannot be written by a tool.
 
 ```bash
 cd /home/erikkallen/Projects/erik/lease-a-fleece
-identify public/fleet/fjord.png public/korg.png
+magick identify -format "%f  %wx%h  alpha=%A\n" public/fleet/fjord.avif public/korg.avif
 ```
 
-Expected: two PNG lines. Each must report an alpha channel — check with:
+Expected: both 1080×1080 (or similar square), `alpha=Blend`. Then confirm the transparency is real rather than a flattened white box:
 
 ```bash
-identify -format "%f alpha=%A\n" public/fleet/fjord.png public/korg.png
+magick public/korg.avif -format "%[pixel:p{5,5}]\n" info:
+magick public/fleet/fjord.avif -format "%[pixel:p{5,5}]\n" info:
 ```
 
-Expected: `alpha=Blend` or `alpha=True` on both. If either reports `alpha=False` the background is not actually transparent, and the `object-contain` treatment will show a white box on the bone background. Remove the background before continuing.
+Expected: `srgba(0,0,0,0)` for both. Anything opaque means the background was flattened on export and the `object-contain` treatment will show a white rectangle against the bone ground — stop and ask for a re-export.
+
+Status at time of writing: `public/korg.avif` is present and verified (1080×1080, alpha Blend, transparent corner). `public/fleet/fjord.avif` has not arrived yet.
 
 - [ ] **Step 2: Generate a temporary Aurora**
 
@@ -1046,11 +1045,11 @@ The white fleece has not been photographed yet. Derive a stand-in from the olive
 
 ```bash
 cd /home/erikkallen/Projects/erik/lease-a-fleece
-magick public/fleet/fjord.png -modulate 118,8,100 -level 0%,62% public/fleet/aurora.png
-identify public/fleet/aurora.png
+magick public/fleet/fjord.avif -modulate 118,8,100 -level 0%,62% public/fleet/aurora.avif
+identify public/fleet/aurora.avif
 ```
 
-Open `public/fleet/aurora.png` and confirm it reads as a pale, near-white rolled blanket with the alpha channel intact. Adjust the `-level` upper bound if it is too grey or blown out.
+Open `public/fleet/aurora.avif` and confirm it reads as a pale, near-white rolled blanket with the alpha channel intact. Adjust the `-level` upper bound if it is too grey or blown out.
 
 When Erik supplies the real white fleece photograph, it replaces this file at the same path and nothing else changes.
 
@@ -1065,9 +1064,9 @@ All images are photographs of the actual products. No stock photography.
 
 | File | Subject | Source |
 |---|---|---|
-| `fleet/fjord.png` | Olive fleece, 130 × 160 cm, rolled | Supplied by Erik |
-| `fleet/aurora.png` | White fleece | **Placeholder** — derived from `fjord.png`, replace with the real photograph |
-| `korg.png` | White perforated carrier, bentwood handles | Supplied by Erik |
+| `fleet/fjord.avif` | Olive fleece, 130 × 160 cm, rolled | Supplied by Erik |
+| `fleet/aurora.avif` | White fleece | **Placeholder** — derived from `fjord.avif`, replace with the real photograph |
+| `korg.avif` | White perforated carrier, bentwood handles | Supplied by Erik |
 
 All are transparent-background cutouts and are rendered `object-contain` on a
 tinted panel. A replacement must also have a transparent background.

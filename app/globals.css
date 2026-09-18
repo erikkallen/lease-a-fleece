@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bone: #f4f1ea;
+  --color-paper: #fbfaf6;
+  --color-ink: #171a14;
+  --color-stone: #6e6e62;
+  --color-line: #dcd7ca;
+  --color-olive: #4a5233;
+  --color-olive-soft: #e9eae1;
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-karla), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body {
+  background-color: var(--color-bone);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fraunces, softened and slightly wonky, reads as textile rather than newspaper. */
+.font-display {
+  font-variation-settings: "SOFT" 40, "WONK" 1;
+  letter-spacing: -0.015em;
+}
+
+/* The register layer: unit codes, dimensions, availability. */
+.register {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+::selection {
+  background-color: var(--color-olive);
+  color: var(--color-bone);
+}
+
+/* One orchestrated entrance on the hero. Nothing else animates on load. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.7s var(--ease-out-soft) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

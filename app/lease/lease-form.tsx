@@ -35,6 +35,7 @@ function Field({
         {!required && <span className="text-stone"> (optional)</span>}
       </label>
       <input
+        key={defaultValue ?? ''}
         id={name}
         name={name}
         type={type}
@@ -63,6 +64,9 @@ export function LeaseForm({ initialUnit }: { initialUnit: UnitSlug }) {
   const [korg, setKorg] = useState(false)
 
   const errors = state.fieldErrors ?? {}
+  // React resets the form after a Server Action, so a rejected submit would
+  // otherwise blank every correctly-filled text field. Echo them back.
+  const submitted = state.values ?? {}
 
   useEffect(() => {
     const first = Object.keys(errors)[0]
@@ -88,11 +92,11 @@ export function LeaseForm({ initialUnit }: { initialUnit: UnitSlug }) {
         <fieldset>
           <legend className="font-display text-2xl">Lessee details</legend>
           <div className="mt-6 grid gap-5 sm:grid-cols-2">
-            <Field name="fullName" label="Full name" error={errors.fullName} autoComplete="name" />
-            <Field name="email" label="Email" type="email" error={errors.email} autoComplete="email" />
-            <Field name="phone" label="Telephone" type="tel" error={errors.phone} autoComplete="tel" />
+            <Field defaultValue={submitted.fullName} name="fullName" label="Full name" error={errors.fullName} autoComplete="name" />
+            <Field defaultValue={submitted.email} name="email" label="Email" type="email" error={errors.email} autoComplete="email" />
+            <Field defaultValue={submitted.phone} name="phone" label="Telephone" type="tel" error={errors.phone} autoComplete="tel" />
             <Field
-              name="company"
+              defaultValue={submitted.company} name="company"
               label="Company"
               required={false}
               error={errors.company}
@@ -104,14 +108,14 @@ export function LeaseForm({ initialUnit }: { initialUnit: UnitSlug }) {
         <fieldset>
           <legend className="font-display text-2xl">Delivery address</legend>
           <div className="mt-6 grid gap-5 sm:grid-cols-2">
-            <Field name="street" label="Street" error={errors.street} autoComplete="address-line1" />
-            <Field name="houseNumber" label="House number" error={errors.houseNumber} />
-            <Field name="postcode" label="Postcode" error={errors.postcode} autoComplete="postal-code" />
-            <Field name="city" label="City" error={errors.city} autoComplete="address-level2" />
+            <Field defaultValue={submitted.street} name="street" label="Street" error={errors.street} autoComplete="address-line1" />
+            <Field defaultValue={submitted.houseNumber} name="houseNumber" label="House number" error={errors.houseNumber} />
+            <Field defaultValue={submitted.postcode} name="postcode" label="Postcode" error={errors.postcode} autoComplete="postal-code" />
+            <Field defaultValue={submitted.city} name="city" label="City" error={errors.city} autoComplete="address-level2" />
             <Field
               name="country"
               label="Country"
-              defaultValue="NL"
+              defaultValue={submitted.country ?? 'NL'}
               error={errors.country}
               autoComplete="country"
             />

@@ -8,6 +8,27 @@ import { priceLease } from '@/lib/pricing'
 export interface LeaseFormState {
   fieldErrors?: Record<string, string>
   formError?: string
+  /** Raw text values echoed back so a rejected form does not lose what was typed. */
+  values?: Record<string, string>
+}
+
+/** The text inputs, in the order they appear in the form. */
+const TEXT_FIELDS = [
+  'fullName',
+  'email',
+  'phone',
+  'company',
+  'street',
+  'houseNumber',
+  'postcode',
+  'city',
+  'country',
+] as const
+
+function submittedValues(formData: FormData): Record<string, string> {
+  return Object.fromEntries(
+    TEXT_FIELDS.map((name) => [name, String(formData.get(name) ?? '')]),
+  )
 }
 
 const REF_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
@@ -51,7 +72,7 @@ export async function submitLease(
       const key = String(issue.path[0] ?? 'form')
       fieldErrors[key] ??= issue.message
     }
-    return { fieldErrors }
+    return { fieldErrors, values: submittedValues(formData) }
   }
 
   const d = parsed.data
@@ -98,7 +119,10 @@ export async function submitLease(
     })
   } catch (error) {
     console.error('[lease] blob write failed', error)
-    return { formError: 'We could not file your contract. Please try again.' }
+    return {
+      formError: 'We could not file your contract. Please try again.',
+      values: submittedValues(formData),
+    }
   }
 
   redirect(`/lease/submitted?ref=${ref}`)

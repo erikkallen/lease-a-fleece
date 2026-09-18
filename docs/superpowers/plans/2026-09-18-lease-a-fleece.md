@@ -8,15 +8,44 @@
 
 **Tech Stack:** Next.js 16 (App Router, TypeScript), Tailwind CSS v4, Zod v4, `@vercel/blob`, Vitest, Node 24.
 
+---
+
+## Design language
+
+The concept: **an asset register that happens to contain blankets.** The site borrows the visual grammar of an equipment-leasing prospectus — monospace unit codes, ruled data tables, live availability figures, fleet utilisation stated as a percentage — and executes it with Scandinavian editorial restraint. The joke is structural. It lives in the typography and the information design, not in the copy, which stays completely straight.
+
+**Typefaces.** Three, each with a job:
+
+| Role | Face | Why |
+|---|---|---|
+| Display | **Fraunces** | A warm, high-contrast serif with `SOFT` and `WONK` variable axes. Softened, it reads as textile rather than newspaper. |
+| Body | **Karla** | A grotesque with enough quirk in the `a`, `g` and `t` to have a voice, without drawing attention. |
+| Data | **IBM Plex Mono** | The institutional register layer: unit codes, dimensions, availability, reference numbers. This is what sells the premise. |
+
+Not Inter, not Roboto, not a system stack.
+
+**Palette.** Warm bone dominates; olive — sampled from the actual blanket — is the single accent and appears sparingly. No gradients, no purple, no shadows except the one described below.
+
+**The two memorable details:**
+
+1. **The register line.** Every unit carries a monospace asset code rendered as a ruled caption: `LAF-U-001 · OLIVE · 130×160`. It appears on cards, on detail pages, and in the summary panel. It is the thing that makes a blanket read as fleet equipment.
+2. **The lift.** Product images are transparent cutouts, so on hover a card's blanket rises a few pixels while a soft elliptical ground-shadow fades in beneath it — as though it is being picked up off the shelf. This only works *because* the images have no background, and it is the one moment of motion on the site.
+
+**Atmosphere.** A very fine paper grain sits over the whole page as an inline SVG turbulence filter — no image asset, no request. Section boundaries are hairline rules, never shadows or cards-on-cards.
+
+**Motion.** One orchestrated page-load stagger on the hero, via `animation-delay`. Everything else is a 150–500ms colour or transform transition. All of it sits behind `prefers-reduced-motion`.
+
 **Spec:** `docs/superpowers/specs/2026-09-18-lease-a-fleece-design.md`
 
 ---
 
-## Deviation from the spec
+## Deviation from the spec: no shadcn/ui
 
-The spec's stack table lists shadcn/ui for form primitives. **This plan does not use shadcn/ui.** Every control the form needs — text input, select, radio group, checkbox — is a native HTML element that is keyboard-accessible and screen-reader-correct with no JavaScript. Adding shadcn would pull in Radix, `class-variance-authority`, `clsx`, `tailwind-merge` and `lucide-react` to reach the same place, and the restrained Scandinavian design language suits native controls styled with Tailwind. Runtime dependencies drop from roughly eight to two.
+The spec's stack table lists shadcn/ui for form primitives. **This plan does not use it**, and Erik confirmed this after raising the question of visual quality.
 
-If this is not wanted, stop and say so before Task 11; retrofitting shadcn afterwards means rewriting the form's markup.
+The reasoning: shadcn would not make the site look better. Its default aesthetic is the widely-recognised one, and the design language above — Fraunces, a monospace register layer, warm bone, cutouts that lift off the shelf — is the opposite of a component-library default. Meanwhile every control the form needs (text input, select, radio, checkbox) is a native element that is already keyboard- and screen-reader-correct. Reaching the same place through shadcn costs Radix, `class-variance-authority`, `clsx`, `tailwind-merge` and `lucide-react`.
+
+Runtime dependencies: two (`zod`, `@vercel/blob`) plus Tailwind, which does the styling work.
 
 ---
 
@@ -229,6 +258,7 @@ export interface Extra {
 
 export interface FleetUnit {
   slug: UnitSlug
+  assetCode: string
   name: string
   tagline: string
   description: string
@@ -246,6 +276,7 @@ export interface FleetUnit {
 export const FLEET: FleetUnit[] = [
   {
     slug: 'fjord',
+    assetCode: 'LAF-U-001',
     name: 'Fjord',
     tagline: 'The everyday unit.',
     description:
@@ -262,6 +293,7 @@ export const FLEET: FleetUnit[] = [
   },
   {
     slug: 'aurora',
+    assetCode: 'LAF-U-002',
     name: 'Aurora',
     tagline: 'The considered unit.',
     description:
@@ -305,6 +337,7 @@ export const KORG = {
   description:
     'A perforated carrier in white, with bentwood handles, sized to one folded unit. Ventilated on all four faces, which matters more than you would think. KORG is not leased. It is sold outright, once, to one customer, and then it is gone. We do not expect to source another.',
   image: '/korg.png',
+  assetCode: 'LAF-A-001',
   oneTimeCents: 3500,
   unitsEverAvailable: 1,
 } as const
@@ -733,11 +766,12 @@ git commit -m "feat: add euro formatting helper"
 
 ---
 
-## Task 7: Design tokens and root layout
+## Task 7: Design system, grain and root layout
 
 **Files:**
 - Modify: `app/globals.css` (replace entirely)
 - Modify: `app/layout.tsx` (replace entirely)
+- Create: `components/grain.tsx`
 - Create: `components/site-header.tsx`
 - Create: `components/site-footer.tsx`
 
@@ -749,16 +783,19 @@ Replace the entire contents of `app/globals.css`:
 @import "tailwindcss";
 
 @theme {
-  --color-bone: #f7f4ef;
-  --color-paper: #fffdfa;
-  --color-ink: #1c1b19;
-  --color-stone: #6b6862;
-  --color-line: #e4ded4;
-  --color-moss: #3f4a3c;
-  --color-moss-soft: #eef0ec;
+  --color-bone: #f4f1ea;
+  --color-paper: #fbfaf6;
+  --color-ink: #171a14;
+  --color-stone: #6e6e62;
+  --color-line: #dcd7ca;
+  --color-olive: #4a5233;
+  --color-olive-soft: #e9eae1;
 
-  --font-display: var(--font-instrument-serif), Georgia, serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-karla), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 body {
@@ -768,13 +805,74 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Fraunces, softened and slightly wonky, reads as textile rather than newspaper. */
+.font-display {
+  font-variation-settings: "SOFT" 40, "WONK" 1;
+  letter-spacing: -0.015em;
+}
+
+/* The register layer: unit codes, dimensions, availability. */
+.register {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
 ::selection {
-  background-color: var(--color-moss);
+  background-color: var(--color-olive);
   color: var(--color-bone);
+}
+
+/* One orchestrated entrance on the hero. Nothing else animates on load. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.7s var(--ease-out-soft) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 ```
 
-- [ ] **Step 2: Write the header**
+- [ ] **Step 2: Write the grain overlay**
+
+Create `components/grain.tsx`. An inline SVG turbulence filter — no image asset and no network request, fixed over the viewport and inert to pointer events:
+
+```tsx
+export function Grain() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 z-50 h-full w-full opacity-[0.035] mix-blend-multiply"
+    >
+      <filter id="grain">
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
+      </filter>
+      <rect width="100%" height="100%" filter="url(#grain)" />
+    </svg>
+  )
+}
+```
+
+- [ ] **Step 3: Write the header**
 
 Create `components/site-header.tsx`:
 
@@ -783,18 +881,18 @@ import Link from 'next/link'
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-line">
+    <header className="sticky top-0 z-40 border-b border-line bg-bone/85 backdrop-blur-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <Link href="/" className="font-display text-xl tracking-tight">
+        <Link href="/" className="font-display text-xl">
           Lease&#8209;a&#8209;Fleece
         </Link>
-        <nav className="flex items-center gap-8 text-sm">
-          <Link href="/fleet" className="text-stone transition-colors hover:text-ink">
+        <nav className="flex items-center gap-8">
+          <Link href="/fleet" className="register transition-colors hover:text-ink">
             Fleet
           </Link>
           <Link
             href="/lease"
-            className="rounded-full bg-ink px-5 py-2 text-paper transition-opacity hover:opacity-85"
+            className="rounded-full bg-ink px-5 py-2 text-sm text-paper transition-opacity hover:opacity-85"
           >
             Start a contract
           </Link>
@@ -805,31 +903,36 @@ export function SiteHeader() {
 }
 ```
 
-- [ ] **Step 3: Write the footer**
+- [ ] **Step 4: Write the footer**
 
 Create `components/site-footer.tsx`:
 
 ```tsx
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-line">
-      <div className="mx-auto max-w-6xl px-6 py-12 text-sm text-stone">
-        <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
-          <div className="max-w-sm">
-            <p className="font-display text-base text-ink">Lease&#8209;a&#8209;Fleece B.V.</p>
-            <p className="mt-2">
+    <footer className="mt-28 border-t border-line">
+      <div className="mx-auto max-w-6xl px-6 py-14">
+        <div className="flex flex-col gap-10 sm:flex-row sm:justify-between">
+          <div className="max-w-xs">
+            <p className="font-display text-lg">Lease&#8209;a&#8209;Fleece B.V.</p>
+            <p className="mt-3 text-sm leading-relaxed text-stone">
               Registered warmth provider. Amsterdam, the Netherlands.
             </p>
           </div>
-          <div className="max-w-sm">
+          <div className="max-w-xs text-sm leading-relaxed text-stone">
             <p>
               All fleece remains the property of the lessor at all times. Units are inspected on
               return.
             </p>
           </div>
+          <div className="register leading-loose">
+            <p>Fleet size — 002</p>
+            <p>Jurisdiction — NL</p>
+            <p>Terms — 12 / 24 / 36</p>
+          </div>
         </div>
-        <p className="mt-10 text-xs">
-          &copy; {new Date().getFullYear()} Lease&#8209;a&#8209;Fleece B.V. All rights reserved.
+        <p className="register mt-12 border-t border-line pt-6">
+          &copy; {new Date().getFullYear()} Lease&#8209;a&#8209;Fleece B.V.
         </p>
       </div>
     </footer>
@@ -837,22 +940,28 @@ export function SiteFooter() {
 }
 ```
 
-- [ ] **Step 4: Write the root layout**
+- [ ] **Step 5: Write the root layout**
 
 Replace the entire contents of `app/layout.tsx`:
 
 ```tsx
 import type { Metadata } from 'next'
-import { Inter, Instrument_Serif } from 'next/font/google'
+import { Fraunces, IBM_Plex_Mono, Karla } from 'next/font/google'
+import { Grain } from '@/components/grain'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const instrumentSerif = Instrument_Serif({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  weight: '400',
-  variable: '--font-instrument-serif',
+  axes: ['SOFT', 'WONK'],
+  variable: '--font-fraunces',
+})
+const karla = Karla({ subsets: ['latin'], variable: '--font-karla' })
+const plexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-plex-mono',
 })
 
 export const metadata: Metadata = {
@@ -863,8 +972,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${instrumentSerif.variable}`}>
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${karla.variable} ${plexMono.variable}`}
+    >
       <body className="flex min-h-screen flex-col">
+        <Grain />
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
@@ -874,7 +987,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
-- [ ] **Step 5: Verify the build**
+If the build rejects the `axes` option on Fraunces, drop that line — the font still loads as a variable weight range, and the `font-variation-settings` rule in `globals.css` simply has no effect.
+
+- [ ] **Step 6: Verify the build**
 
 ```bash
 source ~/.nvm/nvm.sh && nvm use
@@ -883,11 +998,15 @@ npm run build
 
 Expected: build succeeds.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Look at it**
+
+Run `npm run dev` and open `http://localhost:3000`. The page is mostly empty at this stage, but confirm: the background is warm bone rather than white, the header wordmark renders in a serif, the footer register block renders in monospace small caps, and the grain is *just* perceptible — if it looks like visible noise, lower the opacity.
+
+- [ ] **Step 8: Commit**
 
 ```bash
 git add -A
-git commit -m "feat: add design tokens, layout, header and footer"
+git commit -m "feat: add design system, grain overlay, layout, header and footer"
 ```
 
 ---
@@ -984,37 +1103,43 @@ export function UnitCard({ unit }: { unit: FleetUnit }) {
   return (
     <Link
       href={`/fleet/${unit.slug}`}
-      className="group block overflow-hidden rounded-lg border border-line bg-paper transition-colors hover:border-ink/25"
+      className="group block overflow-hidden rounded-lg border border-line bg-paper transition-colors duration-300 hover:border-ink/30"
     >
-      <div className="relative aspect-4/3 overflow-hidden bg-moss-soft p-8">
+      <div className="relative aspect-4/3 overflow-hidden bg-olive-soft">
+        {/* Ground shadow. Fades in under the unit as it lifts — only possible
+            because the product images are transparent cutouts. */}
+        <div
+          aria-hidden="true"
+          className="absolute bottom-[14%] left-1/2 h-4 w-1/2 -translate-x-1/2 rounded-[50%] bg-ink/20 opacity-0 blur-md transition-all duration-500 ease-[var(--ease-out-soft)] group-hover:bottom-[10%] group-hover:opacity-100"
+        />
         <Image
           src={unit.image}
           alt={`${unit.name} in ${unit.colourway.toLowerCase()}`}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-contain p-8 transition-transform duration-500 group-hover:scale-[1.04]"
+          className="object-contain p-10 transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:-translate-y-2"
         />
       </div>
       <div className="p-6">
-        <div className="flex items-baseline justify-between gap-4">
-          <h3 className="font-display text-2xl">{unit.name}</h3>
-          <span className="text-xs text-stone">
-            {unit.availableUnits} of {unit.totalUnits} available
+        <p className="register">
+          {unit.assetCode} · {unit.colourway} · {unit.dimensionsCm}
+        </p>
+        <div className="mt-3 flex items-baseline justify-between gap-4">
+          <h3 className="font-display text-3xl">{unit.name}</h3>
+          <span className="register">
+            {unit.availableUnits} / {unit.totalUnits} avail.
           </span>
         </div>
-        <p className="mt-1 text-sm text-stone">{unit.tagline}</p>
-        <dl className="mt-5 flex items-end justify-between border-t border-line pt-4">
+        <p className="mt-2 text-sm text-stone">{unit.tagline}</p>
+        <dl className="mt-6 flex items-end justify-between border-t border-line pt-4">
           <div>
-            <dt className="text-xs text-stone">From</dt>
-            <dd className="font-display text-xl">
+            <dt className="register">From</dt>
+            <dd className="mt-1 font-display text-2xl">
               {formatEur(unit.monthlyRates[36])}
-              <span className="ml-1 font-sans text-xs text-stone">/ month</span>
+              <span className="ml-1.5 font-sans text-xs text-stone">/ month</span>
             </dd>
           </div>
-          <div className="text-right">
-            <dt className="text-xs text-stone">Colourway</dt>
-            <dd className="text-sm">{unit.colourway}</dd>
-          </div>
+          <span className="register transition-colors group-hover:text-ink">Specification &rarr;</span>
         </dl>
       </div>
     </Link>
@@ -1082,27 +1207,44 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-6 pt-16 pb-20">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <p className="text-xs tracking-[0.2em] text-stone uppercase">Est. 2026 · Amsterdam</p>
-            <h1 className="mt-6 font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">
-              Never own a blanket again.
+            <p className="register rise">Est. 2026 · Amsterdam · Fleet size 002</p>
+            <h1
+              className="rise mt-6 font-display text-6xl leading-[0.98] sm:text-7xl"
+              style={{ animationDelay: '80ms' }}
+            >
+              Never own a<br />
+              blanket again.
             </h1>
-            <p className="mt-6 max-w-md text-lg text-stone">
+            <p
+              className="rise mt-7 max-w-md text-lg leading-relaxed text-stone"
+              style={{ animationDelay: '160ms' }}
+            >
               Full-service fleece leasing for the domestic interior. You get the warmth. We keep the
               asset, the laundering schedule and the depreciation.
             </p>
-            <div className="mt-9 flex flex-wrap items-center gap-5">
+            <div
+              className="rise mt-10 flex flex-wrap items-center gap-6"
+              style={{ animationDelay: '240ms' }}
+            >
               <Link
                 href="/lease"
                 className="rounded-full bg-ink px-7 py-3 text-paper transition-opacity hover:opacity-85"
               >
                 Start a contract
               </Link>
-              <Link href="/fleet" className="text-sm text-stone underline-offset-4 hover:underline">
-                View the fleet
+              <Link href="/fleet" className="register transition-colors hover:text-ink">
+                View the fleet &rarr;
               </Link>
             </div>
           </div>
-          <div className="relative aspect-square overflow-hidden rounded-lg bg-moss-soft">
+          <div
+            className="rise relative aspect-square overflow-hidden rounded-lg bg-olive-soft"
+            style={{ animationDelay: '320ms' }}
+          >
+            <div
+              aria-hidden="true"
+              className="absolute bottom-[16%] left-1/2 h-6 w-1/2 -translate-x-1/2 rounded-[50%] bg-ink/15 blur-lg"
+            />
             <Image
               src={FLEET[0].image}
               alt={`${FLEET[0].name}, our olive unit, rolled and banded`}
@@ -1111,6 +1253,9 @@ export default function HomePage() {
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-contain p-12"
             />
+            <p className="register absolute bottom-5 left-6">
+              {FLEET[0].assetCode} · {FLEET[0].dimensionsCm}
+            </p>
           </div>
         </div>
       </section>
@@ -1230,7 +1375,7 @@ export default function FleetPage() {
           ['Current utilisation', `${utilisation}%`],
         ].map(([label, value]) => (
           <div key={label} className="bg-paper px-6 py-5">
-            <dt className="text-xs tracking-wide text-stone uppercase">{label}</dt>
+            <dt className="register">{label}</dt>
             <dd className="mt-1 font-display text-2xl">{value}</dd>
           </div>
         ))}
@@ -1243,7 +1388,7 @@ export default function FleetPage() {
       </div>
 
       <section className="mt-20 grid items-center gap-10 rounded-lg border border-line bg-paper p-8 lg:grid-cols-2">
-        <div className="relative aspect-4/3 overflow-hidden rounded bg-moss-soft">
+        <div className="relative aspect-4/3 overflow-hidden rounded bg-olive-soft">
           <Image
             src={KORG.image}
             alt="The KORG carrier: a white perforated basket with bentwood handles"
@@ -1253,12 +1398,13 @@ export default function FleetPage() {
           />
         </div>
         <div>
-          <p className="text-xs tracking-[0.2em] text-stone uppercase">Not for lease</p>
+          <p className="register">Not for lease</p>
           <h2 className="mt-3 font-display text-3xl">
             {KORG.name} <span className="text-stone">— {KORG.subtitle}</span>
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-stone">{KORG.description}</p>
-          <p className="mt-6 font-display text-2xl">{formatEur(KORG.oneTimeCents)}</p>
+          <p className="register mt-6">{KORG.assetCode}</p>
+          <p className="mt-2 font-display text-3xl">{formatEur(KORG.oneTimeCents)}</p>
           <p className="text-xs text-stone">
             One-time. {KORG.unitsEverAvailable} available, ever. Add it to a contract.
           </p>
@@ -1305,6 +1451,7 @@ export default async function UnitPage({ params }: { params: Promise<{ slug: str
   if (!unit) notFound()
 
   const specs: [string, string][] = [
+    ['Asset code', unit.assetCode],
     ['Colourway', unit.colourway],
     ['Dimensions', `${unit.dimensionsCm} cm`],
     ['Weight', `${unit.gsm} gsm`],
@@ -1320,7 +1467,11 @@ export default async function UnitPage({ params }: { params: Promise<{ slug: str
       </Link>
 
       <div className="mt-8 grid gap-12 lg:grid-cols-2">
-        <div className="relative aspect-square overflow-hidden rounded-lg bg-moss-soft">
+        <div className="relative aspect-square overflow-hidden rounded-lg bg-olive-soft">
+          <div
+            aria-hidden="true"
+            className="absolute bottom-[16%] left-1/2 h-6 w-1/2 -translate-x-1/2 rounded-[50%] bg-ink/15 blur-lg"
+          />
           <Image
             src={unit.image}
             alt={`${unit.name} in ${unit.colourway.toLowerCase()}`}
@@ -1333,10 +1484,11 @@ export default async function UnitPage({ params }: { params: Promise<{ slug: str
 
         <div>
           <h1 className="font-display text-4xl tracking-tight">{unit.name}</h1>
-          <p className="mt-2 text-stone">{unit.tagline}</p>
+          <p className="register mt-3">{unit.assetCode}</p>
+          <p className="mt-3 text-stone">{unit.tagline}</p>
           <p className="mt-6 leading-relaxed text-stone">{unit.description}</p>
 
-          <h2 className="mt-10 text-xs tracking-[0.2em] text-stone uppercase">Specification</h2>
+          <h2 className="register mt-10 block">Specification</h2>
           <dl className="mt-4 divide-y divide-line border-y border-line">
             {specs.map(([label, value]) => (
               <div key={label} className="flex justify-between gap-6 py-3 text-sm">
@@ -1346,7 +1498,7 @@ export default async function UnitPage({ params }: { params: Promise<{ slug: str
             ))}
           </dl>
 
-          <h2 className="mt-10 text-xs tracking-[0.2em] text-stone uppercase">Monthly rate</h2>
+          <h2 className="register mt-10 block">Monthly rate</h2>
           <dl className="mt-4 grid grid-cols-3 gap-px overflow-hidden rounded border border-line bg-line">
             {TERMS.map((term) => (
               <div key={term} className="bg-paper px-4 py-4 text-center">
@@ -1414,7 +1566,7 @@ export function SummaryPanel({ config }: { config: LeaseConfig }) {
 
   return (
     <aside className="rounded-lg border border-line bg-paper p-6 lg:sticky lg:top-8">
-      <h2 className="text-xs tracking-[0.2em] text-stone uppercase">Contract summary</h2>
+      <h2 className="register">Contract summary</h2>
 
       <dl className="mt-5 space-y-2 text-sm">
         <div className="flex justify-between gap-4">
@@ -1810,7 +1962,7 @@ export function LeaseForm({ initialUnit }: { initialUnit: UnitSlug }) {
                 <label
                   key={term}
                   className={`cursor-pointer rounded border px-4 py-3 text-sm transition-colors ${
-                    termMonths === term ? 'border-ink bg-moss-soft' : 'border-line bg-paper'
+                    termMonths === term ? 'border-ink bg-olive-soft' : 'border-line bg-paper'
                   }`}
                 >
                   <input
@@ -2006,13 +2158,13 @@ export default async function SubmittedPage({
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-24">
-      <p className="text-xs tracking-[0.2em] text-stone uppercase">Application received</p>
+      <p className="register">Application received</p>
       <h1 className="mt-4 font-display text-4xl tracking-tight">Your contract is on file.</h1>
 
       {ref && (
         <div className="mt-8 rounded-lg border border-line bg-paper px-6 py-5">
-          <p className="text-xs tracking-wide text-stone uppercase">Reference</p>
-          <p className="mt-1 font-display text-3xl">{ref}</p>
+          <p className="register">Reference</p>
+          <p className="mt-2 font-mono text-3xl tracking-widest">{ref}</p>
         </div>
       )}
 

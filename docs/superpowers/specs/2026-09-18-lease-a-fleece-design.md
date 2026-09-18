@@ -31,7 +31,7 @@ white) and one real basket.
 |---|---|
 | Framework | Next.js 16, App Router, TypeScript |
 | Styling | Tailwind CSS v4 |
-| Components | shadcn/ui (copied-in source, form primitives only) |
+| Components | None — native HTML controls styled with Tailwind |
 | Validation | Zod |
 | Persistence | `@vercel/blob` |
 | Tests | Vitest |
@@ -225,8 +225,13 @@ substitution is obvious. All images are rendered through `next/image`.
 
 ## Tone
 
-Premium Scandinavian direct-to-consumer: warm neutrals, generous whitespace,
-large photography, restrained typography. Copy is straight-faced throughout.
+Premium Scandinavian direct-to-consumer, organised as an asset register: the
+site borrows the visual grammar of an equipment-leasing prospectus — monospace
+unit codes, ruled data tables, fleet utilisation as a percentage — and executes
+it with editorial restraint. Warm bone ground, olive sampled from the real
+blanket as the single accent, Fraunces for display, Karla for body, IBM Plex
+Mono for the register layer. Copy is straight-faced throughout; the joke is
+carried by the information design, not by the words.
 
 The wink is rationed to roughly half a dozen deadpan moments across the whole
 site, never signposted. Examples: "residual thermal value" as a line in the spec

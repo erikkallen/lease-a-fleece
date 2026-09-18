@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { UnitCard } from '@/components/unit-card'
 import { CONCESSION, FLEET, FOUNDED } from '@/lib/fleet'
+import { FEATURED, TESTIMONIALS } from '@/lib/testimonials'
 
 const PROPOSITIONS = [
   {
@@ -116,6 +117,40 @@ export default function HomePage() {
           {FLEET.map((unit) => (
             <UnitCard key={unit.slug} unit={unit} />
           ))}
+        </div>
+      </section>
+
+      <section className="border-t border-line">
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <h2 className="register">References</h2>
+
+          <figure className="mt-8 max-w-3xl">
+            <blockquote className="font-display text-3xl leading-[1.25] sm:text-4xl">
+              &ldquo;{FEATURED.quote}&rdquo;
+            </blockquote>
+            <figcaption className="mt-6">
+              <span className="text-sm">{FEATURED.name}</span>
+              <span className="register ml-3">{FEATURED.role}</span>
+              <span className="register mt-1 block">{FEATURED.since}</span>
+            </figcaption>
+          </figure>
+
+          <div className="mt-16 grid gap-px border-t border-line bg-line sm:grid-cols-3">
+            {TESTIMONIALS.map((t) => (
+              <figure key={t.name} className="flex flex-col bg-bone px-6 pt-8 pb-8">
+                <blockquote className="leading-relaxed text-stone">
+                  &ldquo;{t.quote}&rdquo;
+                </blockquote>
+                {/* Pushed to the bottom so attributions align across columns
+                    of unequal quote length. */}
+                <figcaption className="mt-6 pt-5 sm:mt-auto">
+                  <span className="block text-sm">{t.name}</span>
+                  <span className="register mt-1 block">{t.role}</span>
+                  <span className="register mt-1 block">{t.since}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
 

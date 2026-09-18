@@ -20,7 +20,7 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: 'Lease-a-Fleece — Fleece blankets, leased',
   description:
-    'Full-service fleece leasing. Quarterly laundering included, swap units at any time, delivery within three working days.',
+    'Full-service fleece leasing since 1986. Quarterly laundering included, swap units at any time, delivery within three working days.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

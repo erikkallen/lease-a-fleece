@@ -107,3 +107,18 @@ export function getUnit(slug: string): FleetUnit | undefined {
 export function getExtra(id: string): Extra | undefined {
   return EXTRAS.find((e) => e.id === id)
 }
+
+/**
+ * The Five-Kilometre Concession. Presented as a standing contractual clause
+ * rather than a promotion, because a leasing firm would not call it a promotion.
+ */
+export const CONCESSION = {
+  name: 'The Five-Kilometre Concession',
+  short: 'Five-Kilometre Concession',
+  clause:
+    'Lessees who complete a supervised five-kilometre course are entitled to their first month at no charge. One claim per lessee. Distance is taken on trust; our fleet does not run.',
+  checkboxLabel: 'I have completed a supervised five-kilometre course.',
+} as const
+
+/** The year the firm was founded. Forty years of continuous operation. */
+export const FOUNDED = 1986

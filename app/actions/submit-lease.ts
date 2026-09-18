@@ -63,6 +63,7 @@ export async function submitLease(
     quantity: formData.get('quantity'),
     extras: formData.getAll('extras'),
     korg: formData.get('korg') === 'on',
+    fiveK: formData.get('fiveK') === 'on',
     consent: formData.get('consent') === 'on',
   })
 
@@ -82,6 +83,7 @@ export async function submitLease(
     quantity: d.quantity,
     extras: d.extras,
     korg: d.korg,
+    fiveK: d.fiveK,
   })
 
   const ref = makeReference()
@@ -107,6 +109,7 @@ export async function submitLease(
       quantity: d.quantity,
       extras: d.extras,
       korg: d.korg,
+      fiveK: d.fiveK,
     },
     pricing: { ...pricing, currency: 'EUR' },
   }

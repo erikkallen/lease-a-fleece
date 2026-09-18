@@ -6,11 +6,15 @@ export interface LeaseConfig {
   quantity: number
   extras: ExtraId[]
   korg: boolean
+  /** Lessee claims the Five-Kilometre Concession: first month at no charge. */
+  fiveK?: boolean
 }
 
 export interface LeasePricing {
   monthlyTotalCents: number
   oneTimeTotalCents: number
+  /** What is actually payable in month one, after any concession. */
+  firstMonthCents: number
 }
 
 export function priceLease(config: LeaseConfig): LeasePricing {
@@ -20,8 +24,11 @@ export function priceLease(config: LeaseConfig): LeasePricing {
   const extrasCents = config.extras.reduce((sum, id) => sum + (getExtra(id)?.monthlyCents ?? 0), 0)
   const perUnitCents = unit.monthlyRates[config.termMonths] + extrasCents
 
+  const monthlyTotalCents = perUnitCents * config.quantity
+
   return {
-    monthlyTotalCents: perUnitCents * config.quantity,
+    monthlyTotalCents,
     oneTimeTotalCents: config.korg ? KORG.oneTimeCents : 0,
+    firstMonthCents: config.fiveK ? 0 : monthlyTotalCents,
   }
 }

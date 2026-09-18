@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useState } from 'react'
 import { submitLease, type LeaseFormState } from '@/app/actions/submit-lease'
-import { EXTRAS, FLEET, KORG, TERMS, type ExtraId, type TermMonths, type UnitSlug } from '@/lib/fleet'
+import { CONCESSION, EXTRAS, FLEET, KORG, TERMS, type ExtraId, type TermMonths, type UnitSlug } from '@/lib/fleet'
 import { formatEur } from '@/lib/format'
 import { SummaryPanel } from './summary-panel'
 
@@ -62,6 +62,7 @@ export function LeaseForm({ initialUnit }: { initialUnit: UnitSlug }) {
   const [quantity, setQuantity] = useState(1)
   const [extras, setExtras] = useState<ExtraId[]>([])
   const [korg, setKorg] = useState(false)
+  const [fiveK, setFiveK] = useState(false)
 
   const errors = state.fieldErrors ?? {}
   // React resets the form after a Server Action, so a rejected submit would
@@ -242,6 +243,22 @@ export function LeaseForm({ initialUnit }: { initialUnit: UnitSlug }) {
               </span>
             </span>
           </label>
+
+          <label className="mt-4 flex cursor-pointer gap-3 rounded border border-line bg-paper px-4 py-3">
+            <input
+              type="checkbox"
+              name="fiveK"
+              checked={fiveK}
+              onChange={(e) => setFiveK(e.target.checked)}
+              className="mt-1"
+            />
+            <span>
+              <span className="block text-sm">{CONCESSION.checkboxLabel}</span>
+              <span className="block text-xs text-stone">
+                {CONCESSION.name} — first month at no charge. {CONCESSION.clause.split('. ').slice(1).join('. ')}
+              </span>
+            </span>
+          </label>
         </fieldset>
 
         <div>
@@ -271,7 +288,7 @@ export function LeaseForm({ initialUnit }: { initialUnit: UnitSlug }) {
         </div>
       </div>
 
-      <SummaryPanel config={{ unitSlug, termMonths, quantity, extras, korg }} />
+      <SummaryPanel config={{ unitSlug, termMonths, quantity, extras, korg, fiveK }} />
     </form>
   )
 }

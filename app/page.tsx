@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { UnitCard } from '@/components/unit-card'
-import { FLEET } from '@/lib/fleet'
+import { CONCESSION, FLEET, FOUNDED } from '@/lib/fleet'
 
 const PROPOSITIONS = [
   {
@@ -30,7 +30,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-6 pt-16 pb-20">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <p className="register rise">Est. 2026 · Amsterdam · Fleet size 002</p>
+            <p className="register rise">Est. 1986 · Amsterdam · Fleet size 002</p>
             <h1
               className="rise mt-6 font-display text-6xl leading-[0.98] sm:text-7xl"
               style={{ animationDelay: '80ms' }}
@@ -42,8 +42,8 @@ export default function HomePage() {
               className="rise mt-7 max-w-md text-lg leading-relaxed text-stone"
               style={{ animationDelay: '160ms' }}
             >
-              Full-service fleece leasing for the domestic interior. You get the warmth. We keep the
-              asset, the laundering schedule and the depreciation.
+              Full-service fleece leasing for the domestic interior since 1986. You get the
+              warmth. We keep the asset, the laundering schedule and the depreciation.
             </p>
             <div
               className="rise mt-10 flex flex-wrap items-center gap-6"
@@ -94,6 +94,17 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-6xl px-6 pt-20">
+        <div className="flex flex-col items-center gap-4 border-b border-line pb-16 text-center">
+          {/* eslint-disable-next-line @next/next/no-img-element -- next/image does not optimise SVG; a plain img is right for a vector mark. */}
+          <img src="/seal.svg" alt="" width={150} height={150} className="opacity-90" />
+          <p className="font-display text-2xl">
+            Forty years of continuous operation.
+          </p>
+          <p className="register">{FOUNDED}&ndash;{FOUNDED + 40} · Fleet size unchanged since 1986</p>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="flex items-end justify-between gap-6">
           <h2 className="font-display text-3xl">The fleet</h2>
@@ -121,6 +132,11 @@ export default function HomePage() {
             ))}
           </ol>
           <div className="mt-14 border-t border-line pt-10">
+            <p className="register">Clause 5.1 — {CONCESSION.name}</p>
+            <p className="mt-3 max-w-2xl leading-relaxed text-stone">{CONCESSION.clause}</p>
+          </div>
+
+          <div className="mt-12 border-t border-line pt-10">
             <Link
               href="/lease"
               className="inline-block rounded-full bg-ink px-7 py-3 text-paper transition-opacity hover:opacity-85"

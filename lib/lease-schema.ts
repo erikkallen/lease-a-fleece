@@ -31,6 +31,7 @@ export const leaseSchema = z.object({
     .max(10, { error: 'A single contract covers at most ten units.' }),
   extras: z.array(z.enum(EXTRA_IDS)).default([]),
   korg: z.boolean().default(false),
+  fiveK: z.boolean().default(false),
 
   consent: z.literal(true, { error: 'You must accept the General Terms of Warmth.' }),
 })

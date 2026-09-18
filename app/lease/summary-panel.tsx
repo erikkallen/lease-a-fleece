@@ -1,6 +1,6 @@
 'use client'
 
-import { EXTRAS, KORG, getUnit } from '@/lib/fleet'
+import { CONCESSION, EXTRAS, KORG, getUnit } from '@/lib/fleet'
 import { formatEur } from '@/lib/format'
 import { priceLease, type LeaseConfig } from '@/lib/pricing'
 
@@ -8,7 +8,7 @@ export function SummaryPanel({ config }: { config: LeaseConfig }) {
   const unit = getUnit(config.unitSlug)
   if (!unit) return null
 
-  const { monthlyTotalCents, oneTimeTotalCents } = priceLease(config)
+  const { monthlyTotalCents, oneTimeTotalCents, firstMonthCents } = priceLease(config)
   const selectedExtras = EXTRAS.filter((e) => config.extras.includes(e.id))
 
   return (
@@ -44,6 +44,13 @@ export function SummaryPanel({ config }: { config: LeaseConfig }) {
           <span className="font-display text-3xl">{formatEur(monthlyTotalCents)}</span>
         </div>
 
+        {config.fiveK && (
+          <div className="mt-3 flex items-baseline justify-between gap-4">
+            <span className="text-sm text-stone">First month, after concession</span>
+            <span className="font-display text-xl">{formatEur(firstMonthCents)}</span>
+          </div>
+        )}
+
         {oneTimeTotalCents > 0 && (
           <div className="mt-3 flex items-baseline justify-between gap-4">
             <span className="text-sm text-stone">{KORG.name}, one-time</span>
@@ -51,6 +58,10 @@ export function SummaryPanel({ config }: { config: LeaseConfig }) {
           </div>
         )}
       </div>
+
+      {config.fiveK && (
+        <p className="register mt-5">{CONCESSION.short} applied</p>
+      )}
 
       <p className="mt-5 text-xs leading-relaxed text-stone">
         Figures are indicative until the contract is counter-signed. Laundering, exchanges and

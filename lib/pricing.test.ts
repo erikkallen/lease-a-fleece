@@ -6,7 +6,7 @@ describe('priceLease', () => {
   it('prices a single unit at the 12-month rate', () => {
     expect(
       priceLease({ unitSlug: 'fjord', termMonths: 12, quantity: 1, extras: [], korg: false }),
-    ).toEqual({ monthlyTotalCents: 1250, oneTimeTotalCents: 0 })
+    ).toEqual({ monthlyTotalCents: 1250, oneTimeTotalCents: 0, firstMonthCents: 1250 })
   })
 
   it('uses the cheaper rate for a longer term', () => {
@@ -63,6 +63,44 @@ describe('priceLease', () => {
     })
     expect(result.oneTimeTotalCents).toBe(3500)
     expect(result.monthlyTotalCents).toBe(975 * 4)
+  })
+
+  it('waives the first month when the concession is claimed', () => {
+    const result = priceLease({
+      unitSlug: 'fjord',
+      termMonths: 24,
+      quantity: 2,
+      extras: [],
+      korg: false,
+      fiveK: true,
+    })
+    expect(result.firstMonthCents).toBe(0)
+    // Only month one is free: the ongoing rate is untouched.
+    expect(result.monthlyTotalCents).toBe(975 * 2)
+  })
+
+  it('charges the first month normally without the concession', () => {
+    const result = priceLease({
+      unitSlug: 'fjord',
+      termMonths: 24,
+      quantity: 2,
+      extras: [],
+      korg: false,
+    })
+    expect(result.firstMonthCents).toBe(975 * 2)
+  })
+
+  it('still charges KORG when the first month is waived', () => {
+    const result = priceLease({
+      unitSlug: 'aurora',
+      termMonths: 12,
+      quantity: 1,
+      extras: [],
+      korg: true,
+      fiveK: true,
+    })
+    expect(result.firstMonthCents).toBe(0)
+    expect(result.oneTimeTotalCents).toBe(3500)
   })
 
   it('throws on an unknown unit', () => {

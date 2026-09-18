@@ -69,8 +69,8 @@ export default function HomePage() {
               className="absolute bottom-[16%] left-1/2 h-6 w-1/2 -translate-x-1/2 rounded-[50%] bg-ink/15 blur-lg"
             />
             <Image
-              src={FLEET[0].image}
-              alt={`${FLEET[0].name}, our olive unit, rolled and banded`}
+              src="/fleet/fjord-rolled.avif"
+              alt={`${FLEET[0].name}, our olive unit, rolled for despatch`}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"

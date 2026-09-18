@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { priceLease } from './pricing'
+import { formatEur } from './format'
 
 describe('priceLease', () => {
   it('prices a single unit at the 12-month rate', () => {
@@ -69,5 +70,19 @@ describe('priceLease', () => {
       // @ts-expect-error deliberately invalid slug
       priceLease({ unitSlug: 'nope', termMonths: 12, quantity: 1, extras: [], korg: false }),
     ).toThrow(/unknown unit/i)
+  })
+})
+
+describe('formatEur', () => {
+  it('renders cents as euros', () => {
+    expect(formatEur(1250)).toBe('€12.50')
+  })
+
+  it('renders a whole amount with trailing zeros', () => {
+    expect(formatEur(3500)).toBe('€35.00')
+  })
+
+  it('renders zero', () => {
+    expect(formatEur(0)).toBe('€0.00')
   })
 })

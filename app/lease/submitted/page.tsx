@@ -35,9 +35,19 @@ export default async function SubmittedPage({
         </p>
       </div>
 
+      {/* The premise stops here. Anyone who filled this form in earnest deserves to know. */}
+      <div className="mt-12 rounded-lg border border-line bg-paper px-6 py-5">
+        <p className="register">For the avoidance of doubt</p>
+        <p className="mt-3 text-sm leading-relaxed text-stone">
+          Lease&#8209;a&#8209;Fleece is not a real company and no lease has been created. This site
+          is a birthday present. Your details are stored and nothing further happens to them &mdash;
+          nobody will be in touch, and no blanket is on its way.
+        </p>
+      </div>
+
       <Link
         href="/"
-        className="mt-12 inline-block rounded-full bg-ink px-7 py-3 text-paper transition-opacity hover:opacity-85"
+        className="mt-10 inline-block rounded-full bg-ink px-7 py-3 text-paper transition-opacity hover:opacity-85"
       >
         Return home
       </Link>

@@ -1,11 +1,15 @@
 import Link from 'next/link'
+import { Mark } from './mark'
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bone/85 backdrop-blur-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-4 sm:px-6 sm:py-5">
-        <Link href="/" className="font-display text-lg whitespace-nowrap sm:text-xl">
-          Lease&#8209;a&#8209;Fleece
+        <Link href="/" className="flex items-center gap-2.5 sm:gap-3">
+          <Mark className="h-7 w-7 shrink-0 sm:h-8 sm:w-8" />
+          <span className="font-display text-lg whitespace-nowrap sm:text-xl">
+            Lease&#8209;a&#8209;Fleece
+          </span>
         </Link>
         <nav className="flex items-center gap-4 sm:gap-8">
           <Link href="/fleet" className="register transition-colors hover:text-ink">

@@ -136,3 +136,46 @@ smallest type is 2.0 mm, which is normal for a care label but does need a
 
 Leave a few millimetres of seam allowance when sewing; the artwork has a 0.5 mm
 border inset so trimming slightly inside the line costs nothing.
+
+
+---
+
+## KORG handle engraving — 2 × (150 × 25 mm)
+
+For a laser engraver, on the bentwood handles of the basket.
+
+| File | Use |
+|---|---|
+| `handle-a-laser.svg` | **Send this to the laser.** Identity: mark, wordmark, est. line. |
+| `handle-b-laser.svg` | **Send this too.** Registry entry: asset code and disposition. |
+| `handle-a.svg` / `handle-b.svg` | Editable sources, live text. |
+| `handles.py` | Regenerates both. |
+
+### Both handles, different content
+
+Engrave **both**. They are a visible pair when the basket is carried, so doing
+one reads as unfinished. But repeating the same text twice is decoration rather
+than information, so each handle carries a different half:
+
+- **Handle A — identity.** The mark, the wordmark, `EST. 1986 · GRONINGEN`.
+- **Handle B — registry.** `LAF-A-001 · KORG`, then
+  `FLEECE CONTAINMENT UNIT · ONE OF ONE` and
+  `SOLD OUTRIGHT · TITLE PASSED TO HOLDER`.
+
+That second handle is the point. Everything else in this gift is leased; KORG is
+the one item actually owned, and the object itself now says so.
+
+### Laser notes
+
+- The `-laser.svg` files contain **only filled closed paths** — no live text, no
+  strokes. Text is outlined and strokes are converted to outlines, so nothing
+  depends on fonts and nothing will be mistaken for a cut line.
+- Everything is pure black `#000000` on a transparent ground. Set the whole file
+  to **fill/raster engrave**. There is nothing in these files intended to cut.
+- Canvas is exactly 150 × 25 mm with the artwork centred. Check your software
+  imports at that size rather than scaling to fit.
+- The handles are curved. A laser loses focus across a curve, so the ends of a
+  150 mm run may engrave lighter than the middle. If the handles unrivet, do
+  them flat. Otherwise test on scrap birch first and consider a shallower,
+  slower pass.
+- Birch scorches easily. Start with low power and build up.

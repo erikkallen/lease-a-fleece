@@ -1,4 +1,6 @@
-# Sewable patch — 150 × 200 mm
+# Print artwork
+
+## Sewable patch — 150 × 200 mm
 
 Two patches, one per unit: `fjord` (olive) and `aurora` (ivory).
 
@@ -52,3 +54,41 @@ not mirror them yourself.
 
 Test on paper first and measure the patch with a ruler: it should be exactly
 150 × 200 mm. If it isn't, the print dialog scaled it.
+
+
+---
+
+## Wrapper band — 115 × 297 mm
+
+A belly band for a rolled unit, replacing the retail packaging. Generic: no
+lessee name, no unit code, so one design serves both blankets and needs no
+reprint if it moves between them.
+
+| File | Use |
+|---|---|
+| `wrapper-a4.pdf` | **Print this.** A4 portrait, strip centred, crop marks, instructions in the margin. |
+| `wrapper.pdf` | Exact 115 × 297 mm trim. For a print shop. |
+| `wrapper-flat.pdf` | The same artwork unrotated, 297 × 115 mm — for looking at, not for printing. |
+| `wrapper.py` | Regenerates all three. |
+
+### How it wraps
+
+The **297 mm runs around** the roll and the **115 mm is the band width**, so the
+artwork is rotated 90° on the printed strip. Wrapped, the wordmark reads
+horizontally along a horizontally-held roll — the way the original packaging did.
+
+### The one real constraint
+
+The strip is exactly A4 height, and home printers cannot print to the paper
+edge — expect 5–15 mm of unprintable margin at each end.
+
+- **Borderless printing**, if your printer has it, gives the full 297 mm.
+- **Otherwise** you lose a few mm at each end. No artwork is lost: all content
+  sits between 20 mm and 290 mm, and the two horizontal rules are meant to run
+  off the ends. But the band comes out correspondingly shorter, so check it
+  still closes around the roll before trimming the second one.
+- If it will not close, print on A3 and trim, or join with a short taped overlap
+  at the back where it will not be seen.
+
+The QR resolves to the homepage — deliberately not a title record, since this
+band is not tied to a specific unit.

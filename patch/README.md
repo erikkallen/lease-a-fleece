@@ -92,3 +92,47 @@ edge — expect 5–15 mm of unprintable margin at each end.
 
 The QR resolves to the homepage — deliberately not a title record, since this
 band is not tied to a specific unit.
+
+
+---
+
+## Care label — 40 × 50 mm
+
+Sewn into a seam. Generic: no lessee name, so one design serves both units.
+
+| File | Use |
+|---|---|
+| `label-a4.pdf` | **Print this.** 20 labels per A4 sheet with cut guides. |
+| `label.pdf` | A single label at exact 40 × 50 mm trim. |
+| `label.py` / `symbols.py` | Regenerate. Care symbols are drawn as paths in `symbols.py`. |
+
+### The symbols
+
+Standard ISO 3758 / GINETEX marks, drawn as vector paths rather than a font, so
+nothing needs installing:
+
+| Symbol | Meaning |
+|---|---|
+| Washtub, 40 | Machine wash at 40 °C |
+| Triangle, crossed | Do not bleach |
+| Square with circle, crossed | Do not tumble dry |
+| Iron, crossed | Do not iron |
+| Circle, crossed | Do not dry clean |
+
+These are the genuinely correct instructions for 100% polyester fleece — it is
+heat-sensitive, so the iron and tumble-dry prohibitions are real advice, not
+part of the joke. 40 °C happens to be both the right wash temperature and the
+lessee's age, which the label notes without comment:
+
+> UNIT AND LESSEE
+> BOTH RATED TO 40°
+
+### Legibility
+
+Verified at true print size with blur and noise applied to simulate inkjet
+spread on fabric: all five symbols and every text line remain readable. The
+smallest type is 2.0 mm, which is normal for a care label but does need a
+300 dpi print — draft mode will mush it.
+
+Leave a few millimetres of seam allowance when sewing; the artwork has a 0.5 mm
+border inset so trimming slightly inside the line costs nothing.

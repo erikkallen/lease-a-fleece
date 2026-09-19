@@ -16,7 +16,7 @@ export interface TitleRecord {
 }
 
 const LESSEE = 'J. Olijve'
-const ISSUED = '19 September 2026'
+const ISSUED = '17 September 2026'
 
 export const TITLE_RECORDS: TitleRecord[] = [
   ...FLEET.map((unit) => ({

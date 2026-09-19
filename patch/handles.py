@@ -20,14 +20,12 @@ handle_a = doc(
     f'<text x="41.5" y="20.4" font-family="IBM Plex Mono" font-weight="500" font-size="3.2" '
     f'letter-spacing="1.5" fill="{INK}">EST. 1986 · GRONINGEN</text>')
 
-# B — registry entry
+# B — the unit itself, mirroring A's structure
 handle_b = doc(
-    f'<text x="{W/2}" y="8.8" font-family="IBM Plex Mono" font-weight="500" font-size="5" '
-    f'letter-spacing="0.55" text-anchor="middle" fill="{INK}">LAF-A-001 · KORG</text>'
-    f'<text x="{W/2}" y="14.9" font-family="IBM Plex Mono" font-size="3.3" '
-    f'letter-spacing="0.6" text-anchor="middle" fill="{INK}">FLEECE CONTAINMENT UNIT · ONE OF ONE</text>'
-    f'<text x="{W/2}" y="19.7" font-family="IBM Plex Mono" font-size="3.3" '
-    f'letter-spacing="0.6" text-anchor="middle" fill="{INK}">SOLD OUTRIGHT · TITLE PASSED TO HOLDER</text>')
+    f'<text x="{W/2}" y="14.2" font-family="Fraunces" font-weight="600" font-size="13" '
+    f'text-anchor="middle" fill="{INK}">KORG</text>'
+    f'<text x="{W/2}" y="20.2" font-family="IBM Plex Mono" font-weight="500" font-size="3.2" '
+    f'letter-spacing="1.5" text-anchor="middle" fill="{INK}">FLEECE CONTAINMENT UNIT</text>')
 
 open(f'{D}/handle-a.svg','w').write(handle_a)
 open(f'{D}/handle-b.svg','w').write(handle_b)

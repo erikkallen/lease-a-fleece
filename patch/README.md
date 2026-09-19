@@ -157,13 +157,13 @@ Engrave **both**. They are a visible pair when the basket is carried, so doing
 one reads as unfinished. But repeating the same text twice is decoration rather
 than information, so each handle carries a different half:
 
-- **Handle A — identity.** The mark, the wordmark, `EST. 1986 · GRONINGEN`.
-- **Handle B — registry.** `LAF-A-001 · KORG`, then
-  `FLEECE CONTAINMENT UNIT · ONE OF ONE` and
-  `SOLD OUTRIGHT · TITLE PASSED TO HOLDER`.
+- **Handle A — the firm.** The mark, the wordmark, `EST. 1986 · GRONINGEN`.
+- **Handle B — the object.** `KORG`, and `FLEECE CONTAINMENT UNIT` beneath it.
 
-That second handle is the point. Everything else in this gift is leased; KORG is
-the one item actually owned, and the object itself now says so.
+The two share a structure — name in Fraunces, descriptor in mono underneath — so
+they read as a matched pair rather than two unrelated engravings. Ink sits
+20 mm from each end on A and 37 mm on B, with an identical 4.8 mm above and
+below on both.
 
 ### Laser notes
 

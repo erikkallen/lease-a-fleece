@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="150.0mm" height="200.0mm" viewBox="0 0 150.0 200.0">
+<svg xmlns="http://www.w3.org/2000/svg" width="210.0mm" height="297.0mm" viewBox="0 0 210.0 297.0">
+<rect width="210.0" height="297.0" fill="#ffffff"/><line x1="28.00" y1="48.50" x2="23.00" y2="48.50" stroke="#171a14" stroke-width="0.25"/><line x1="30.00" y1="46.50" x2="30.00" y2="41.50" stroke="#171a14" stroke-width="0.25"/><line x1="182.00" y1="48.50" x2="187.00" y2="48.50" stroke="#171a14" stroke-width="0.25"/><line x1="180.00" y1="46.50" x2="180.00" y2="41.50" stroke="#171a14" stroke-width="0.25"/><line x1="28.00" y1="248.50" x2="23.00" y2="248.50" stroke="#171a14" stroke-width="0.25"/><line x1="30.00" y1="250.50" x2="30.00" y2="255.50" stroke="#171a14" stroke-width="0.25"/><line x1="182.00" y1="248.50" x2="187.00" y2="248.50" stroke="#171a14" stroke-width="0.25"/><line x1="180.00" y1="250.50" x2="180.00" y2="255.50" stroke="#171a14" stroke-width="0.25"/>
+<g transform="translate(30.0,48.5)">
 <rect width="150.0" height="200.0" fill="#f4f1ea"/>
 <rect x="0.6" y="0.6" width="148.8" height="198.8" rx="7" fill="none" stroke="#171a14" stroke-width="0.9"/>
 <rect x="7" y="7" width="136.0" height="186.0" rx="4" fill="none" stroke="#171a14" stroke-width="0.3"
@@ -17,4 +19,7 @@
 <text x="80" y="158" font-family="IBM Plex Mono" font-size="2.8" letter-spacing="1.1" text-anchor="middle" fill="#5f5f54">VERIFY</text>
 <text x="80" y="163" font-family="IBM Plex Mono" font-size="2.8" letter-spacing="1.1" text-anchor="middle" fill="#5f5f54">TITLE</text>
 <text x="75.0" y="187.5" font-family="IBM Plex Mono" font-size="2.35" letter-spacing="0.42" text-anchor="middle" fill="#5f5f54">RETURN ON DEMAND · NOT FOR RESALE · LEASE-A-FLEECE.COM</text>
+</g>
+<text x="105.0" y="264.5" font-family="IBM Plex Mono" font-size="3" letter-spacing="0.6" text-anchor="middle" fill="#5f5f54">PRINT AT 100% — DO NOT SCALE TO FIT. PATCH MEASURES 150 × 200 MM.</text>
+<text x="105.0" y="270.5" font-family="IBM Plex Mono" font-size="3" letter-spacing="0.6" text-anchor="middle" fill="#5f5f54">CUT ON THE SOLID EDGE · SEW ON THE DASHED LINE · UNIT: AURORA</text>
 </svg>

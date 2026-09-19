@@ -9,8 +9,10 @@ UNITS = {
  "aurora": dict(code="LAF-U-002", name="AURORA", colour="IVORY"),
 }
 
-def qr_group(x,y,size):
-    svg=open(f'{D}/qr.svg').read()
+def qr_group(x,y,size,slug):
+    url=f"HTTPS://LEASE-A-FLEECE.COM/VERIFY/{UNITS[slug]['code']}"
+    subprocess.run(['qrencode','-o',f'{D}/qr-{slug}.svg','-t','SVG','-m','0','-l','Q',url],check=True)
+    svg=open(f'{D}/qr-{slug}.svg').read()
     m=re.search(r'viewBox="0 0 (\d+) (\d+)"',svg); n=int(m.group(1))
     rects=re.findall(r'<rect[^>]*x="([\d.]+)"[^>]*y="([\d.]+)"[^>]*width="([\d.]+)"[^>]*height="([\d.]+)"[^>]*fill="#000000"[^>]*/>',svg)
     if not rects:
@@ -37,7 +39,7 @@ def seal(cx,cy,r):
 
 def build(slug):
     u=UNITS[slug]
-    qr,_=qr_group(18, 141, 40)
+    qr,_=qr_group(18, 138, 44, slug)
     rows=[("LESSEE",NAME),("LESSEE AGE","40 YEARS"),("UNIT",f"{u['code']} · {u['name']}"),
           ("COLOURWAY",u["colour"]),("TERM","PERPETUAL"),("CONDITION","BOTH PARTIES SERVICEABLE")]
     ry=108.0; spec=[]
@@ -54,7 +56,7 @@ def build(slug):
  stroke-dasharray="1.6 2.4" opacity="0.55"/>
 {MARK.format(ink=INK, sw=15, sw2=9, tx=(W-24)/2, ty=17, s=24/300)}
 <text x="{W/2}" y="53.5" font-family="Fraunces" font-weight="600" font-size="13.5" text-anchor="middle" fill="{INK}">Lease-a-Fleece</text>
-<text x="{W/2}" y="60.5" font-family="IBM Plex Mono" font-size="3.1" letter-spacing="1.5" text-anchor="middle" fill="{STONE}">EST. 1986 · AMSTERDAM</text>
+<text x="{W/2}" y="60.5" font-family="IBM Plex Mono" font-size="3.1" letter-spacing="1.5" text-anchor="middle" fill="{STONE}">EST. 1986 · GRONINGEN</text>
 <line x1="18" y1="70" x2="132" y2="70" stroke="{INK}" stroke-width="0.35"/>
 <text x="{W/2}" y="81" font-family="IBM Plex Mono" font-size="3.3" letter-spacing="2.2" text-anchor="middle" fill="{STONE}">PROPERTY OF</text>
 <text x="{W/2}" y="93.5" font-family="Fraunces" font-weight="600" font-size="10.5" text-anchor="middle" fill="{INK}">Lease-a-Fleece B.V.</text>
@@ -68,7 +70,7 @@ def build(slug):
 <text x="{W/2}" y="187.5" font-family="IBM Plex Mono" font-size="2.35" letter-spacing="0.42" text-anchor="middle" fill="{STONE}">RETURN ON DEMAND · NOT FOR RESALE · LEASE-A-FLEECE.COM</text>
 </svg>'''
 
-D=f'/tmp/claude-1000/-home-erikkallen-Projects-erik-lease-a-fleece/5dbaab3e-e484-4a02-bb2c-66c4c73a23c7/scratchpad/patch'
+D='/home/erikkallen/Projects/erik/lease-a-fleece/patch'
 for slug in UNITS:
     open(f'{D}/patch-{slug}.svg','w').write(build(slug))
 print("built", list(UNITS))

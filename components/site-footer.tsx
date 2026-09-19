@@ -8,7 +8,7 @@ export function SiteFooter() {
             <img src="/seal.svg" alt="" width={64} height={64} className="mb-4 opacity-80" />
             <p className="font-display text-lg">Lease&#8209;a&#8209;Fleece B.V.</p>
             <p className="mt-3 text-sm leading-relaxed text-stone">
-              Registered warmth provider. Amsterdam, the Netherlands.
+              Registered warmth provider. Groningen, the Netherlands.
             </p>
           </div>
           <div className="max-w-xs text-sm leading-relaxed text-stone">

@@ -31,7 +31,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-6 pt-16 pb-20">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <p className="register rise">Est. 1986 · Amsterdam · Fleet size 002</p>
+            <p className="register rise">Est. 1986 · Groningen · Fleet size 002</p>
             <h1
               className="rise mt-6 font-display text-6xl leading-[0.98] sm:text-7xl"
               style={{ animationDelay: '80ms' }}

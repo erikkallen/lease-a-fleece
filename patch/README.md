@@ -25,14 +25,25 @@ Text is converted to outlines, so no fonts need to be installed anywhere.
 
 ## The QR code
 
-40 mm, error-correction level Q (25% of the code can be damaged or obscured and
-it still resolves). Encodes `HTTPS://LEASE-A-FLEECE.COM` in uppercase — that is
-deliberate: uppercase puts the QR into alphanumeric mode, which needs fewer
-modules, so each module is physically larger and survives printing on fabric.
-Domains and URL schemes are case-insensitive, so it opens normally.
+44 mm, error-correction level Q (25% of the code can be damaged or obscured and
+it still resolves). **Each patch carries its own code**, pointing at that unit's
+title record:
 
-Verified to decode from the PDF at 300 dpi and 150 dpi, and from a simulated
-photo of fabric with blur, noise and a 7° tilt.
+| Patch | Resolves to |
+|---|---|
+| `fjord` | `lease-a-fleece.com/verify/LAF-U-001` |
+| `aurora` | `lease-a-fleece.com/verify/LAF-U-002` |
+
+So "SCAN TO VERIFY TITLE" on the patch does what it says — it produces a record
+naming the lessor, the lessee and the disposition of the asset.
+
+The URL is encoded in uppercase deliberately: that puts the QR into alphanumeric
+mode, which needs fewer modules, so each module is physically larger and
+survives printing on fabric. URL schemes and domains are case-insensitive, so it
+opens normally.
+
+Verified to decode from the PDF at 300 dpi and 150 dpi, and from simulated
+photos of fabric with blur, noise and tilt up to 10°.
 
 ## Transfer medium
 

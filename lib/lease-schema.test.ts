@@ -10,7 +10,7 @@ function valid(overrides: Record<string, unknown> = {}) {
     street: 'Keizersgracht',
     houseNumber: '104',
     postcode: '1015 CV',
-    city: 'Amsterdam',
+    city: 'Groningen',
     country: 'NL',
     unitSlug: 'fjord',
     termMonths: '24',

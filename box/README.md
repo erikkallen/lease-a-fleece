@@ -9,6 +9,13 @@ the first thing he reads and it carries the whole conceit.
 It states the facts straight: both units on perpetual lease, KORG sold outright,
 the Five-Kilometre Concession applied in full, and 40 °C noted without comment.
 
+Signed by all four directors of the family firm — Erik (Managing Director),
+Talisa (Director of Underwriting), Ailynn (Registrar of the Fleet) and Quinn
+(Inspector of Warmth) — because Article 12 requires every serving director to
+counter-sign a lease granted in perpetuity, and nobody has proposed amending it.
+That is the excuse the letter gives for four signatures; the real reason is that
+four people are giving the present.
+
 ## Box panels — `puns.pdf`
 
 16 sheets, A4 landscape, one line each in Fraunces. Print the ones you want and

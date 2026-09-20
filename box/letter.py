@@ -17,7 +17,7 @@ CSS = """
 @page { size: A4; margin: 0; }
 * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 body { margin: 0; font-family: Karla, sans-serif; color: #171a14; }
-.pg { width: 210mm; height: 297mm; background: #f4f1ea; padding: 16mm 22mm 26mm; position: relative; }
+.pg { width: 210mm; height: 297mm; background: #f4f1ea; padding: 13mm 22mm 25mm; position: relative; }
 header { display: flex; justify-content: space-between; align-items: flex-start;
          border-bottom: 0.4mm solid #171a14; padding-bottom: 6mm; }
 .brand { display: flex; align-items: center; gap: 4mm; }
@@ -30,21 +30,23 @@ header { display: flex; justify-content: space-between; align-items: flex-start;
         font-family: "IBM Plex Mono", monospace; font-size: 2.7mm; letter-spacing: 0.13em;
         text-transform: uppercase; color: #6e6e62; }
 h1 { font-family: Fraunces, serif; font-variation-settings: "SOFT" 40, "WONK" 1; font-weight: 600;
-     font-size: 9.2mm; line-height: 1.08; letter-spacing: -0.015em; margin: 7mm 0 5mm; }
-p { font-size: 3.35mm; line-height: 1.52; margin: 0 0 3mm; max-width: 154mm; }
+     font-size: 8.2mm; line-height: 1.06; letter-spacing: -0.015em; margin: 5mm 0 4mm; }
+p { font-size: 3.25mm; line-height: 1.45; margin: 0 0 2.6mm; max-width: 156mm; }
 h2 { font-family: "IBM Plex Mono", monospace; font-size: 2.8mm; letter-spacing: 0.2em;
-     text-transform: uppercase; color: #6e6e62; font-weight: 500; margin: 5.5mm 0 2.2mm; }
-table { width: 100%; border-collapse: collapse; margin: 1.5mm 0 4mm; }
+     text-transform: uppercase; color: #6e6e62; font-weight: 500; margin: 4.2mm 0 1.8mm; }
+table { width: 100%; border-collapse: collapse; margin: 1.2mm 0 3.2mm; }
 th { font-family: "IBM Plex Mono", monospace; font-size: 2.5mm; letter-spacing: 0.14em;
      text-transform: uppercase; color: #6e6e62; font-weight: 400; text-align: left;
      padding: 0 0 1.6mm; border-bottom: 0.3mm solid #171a14; }
-td { font-size: 3mm; padding: 1.9mm 0; border-bottom: 0.15mm solid #dcd7ca; }
+td { font-size: 2.95mm; padding: 1.6mm 0; border-bottom: 0.15mm solid #dcd7ca; }
 td.c { font-family: "IBM Plex Mono", monospace; font-size: 2.9mm; letter-spacing: 0.06em; }
-.sig { margin-top: 6mm; }
-.sig .name { font-family: "Mrs Saint Delafield", cursive; font-size: 11mm; line-height: 1;
+.sigs { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5mm 14mm; margin-top: 2.5mm;
+         max-width: 152mm; }
+.sig .name { font-family: "Mrs Saint Delafield", cursive; font-size: 8.4mm; line-height: 1;
              color: #2b2f26; }
-.sig .who { font-family: "IBM Plex Mono", monospace; font-size: 2.7mm; letter-spacing: 0.14em;
-            text-transform: uppercase; color: #6e6e62; margin-top: 2.5mm; line-height: 1.75; }
+.sig .who { font-family: "IBM Plex Mono", monospace; font-size: 2.5mm; letter-spacing: 0.13em;
+            text-transform: uppercase; color: #6e6e62; margin-top: 1.1mm; line-height: 1.6;
+            border-top: 0.2mm solid #dcd7ca; padding-top: 1.1mm; }
 footer { position: absolute; left: 22mm; right: 22mm; bottom: 12mm; border-top: 0.3mm solid #dcd7ca;
          padding-top: 3mm; font-family: "IBM Plex Mono", monospace; font-size: 2.4mm;
          letter-spacing: 0.13em; text-transform: uppercase; color: #8d897e;
@@ -87,19 +89,19 @@ lessee, and we have elected not to enforce it.</p>
 was completed. They do not record the time, and we did not ask.</p>
 
 <h2>Care</h2>
-<p>Machine wash at 40&nbsp;°C. Do not bleach, tumble dry, iron or dry clean. The temperature is
-not a coincidence, but we will say no more about it.</p>
+<p>Machine wash at 40&nbsp;°C; the label carries the rest. The temperature is not a coincidence,
+but we will say no more about it.</p>
 
 <h2>In closing</h2>
 <p>Forty years is a long time for a firm to operate with a fleet of two. We have found the
-trick is to choose the right lessee and then stop looking.</p>
+trick is to choose the right lessee and then stop looking. Congratulations on your fortieth
+year; may the residual thermal value remain undiminished.</p>
 
-<p>Congratulations on your fortieth year. May the residual thermal value remain undiminished.</p>
+<p>A lease granted in perpetuity cannot be issued on one signature. Article 12 of our founding
+documents requires the hand of every serving director, and the board has been the same four
+people since 1986. Nobody has proposed amending it.</p>
 
-<div class="sig">
-  <div class="name">Karin Bakker</div>
-  <div class="who">Karin Bakker<br>Underwriting · Lease-a-Fleece B.V.</div>
-</div>
+<div class="sigs"><div class="sig"><div class="name">Erik Kallen</div><div class="who">Erik Kallen<br>Managing Director</div></div><div class="sig"><div class="name">Talisa Kallen</div><div class="who">Talisa Kallen<br>Director of Underwriting</div></div><div class="sig"><div class="name">Ailynn Kallen</div><div class="who">Ailynn Kallen<br>Registrar of the Fleet</div></div><div class="sig"><div class="name">Quinn Kallen</div><div class="who">Quinn Kallen<br>Inspector of Warmth</div></div></div>
 
 <footer><span>lease-a-fleece.com</span><span>Fleece remains the property of the lessor at all times</span></footer>
 </div>"""
